@@ -1,0 +1,51 @@
+---
+title: "birthdays"
+author: "Dr K"
+date: "February 21, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Todays Notes
+Today the class all filed in the day of the year they were born on. It is a number from 1 (Jan 1) to 365 (Dec 31) to contemplate whether any two shared a birthday.
+
+
+```{r}
+BDdata <- read.csv("classBdays.csv")
+days<-na.omit(BDdata$BD)
+print(sort(days))
+```
+##What if we had 30 people in the class?
+
+Sampling in R is a tool we use all the time. There is two ways to doi it.
+with replacement and the other way is without replacemeny.
+
+```{r}
+bdays=seq(1:365)
+class30 = sample(bdays,size=30,replace = TRUE)
+print(sort(class30))
+```
+
+The code we just ran will change every time. 
+
+To get a definative answer we have to run this a lot of times and "keep track"
+
+We build a loop that every time we get a new class we count if there is a match.
+
+```{r}
+numits=1000
+class=30
+ccnt=0
+for (i in 1:numits) {
+ class30 = sample(bdays,size=30,replace = TRUE)
+ if(length(unique(class30)) != 30) ccnt=ccnt+1
+}
+pval=ccnt/numits
+odds=pval/(1-pval)
+print(pval)
+print(odds)
+  
+```
